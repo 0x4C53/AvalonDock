@@ -129,33 +129,8 @@ namespace AvalonDock.Controls
 
 			if (!e.Handled)
 			{
-				_model.Root.Manager.ShowAutoHideWindow(this);
-				_model.IsActive = true;
+				if (_model.Root.Manager.SwitchAutoHideWindowVisibility(this) == true) _model.IsActive = true;
 			}
-		}
-
-		protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
-		{
-			base.OnMouseEnter(e);
-
-			if (!e.Handled)
-			{
-				_openUpTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle);
-				_openUpTimer.Interval = TimeSpan.FromMilliseconds(400);
-				_openUpTimer.Tick += new EventHandler(_openUpTimer_Tick);
-				_openUpTimer.Start();
-			}
-		}
-
-		protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
-		{
-			if (_openUpTimer != null)
-			{
-				_openUpTimer.Tick -= new EventHandler(_openUpTimer_Tick);
-				_openUpTimer.Stop();
-				_openUpTimer = null;
-			}
-			base.OnMouseLeave(e);
 		}
 
 		#endregion Overrides
