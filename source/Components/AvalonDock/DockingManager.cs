@@ -1637,6 +1637,20 @@ namespace AvalonDock
 
 		internal void HideAutoHideWindow(LayoutAnchorControl anchor) => _autoHideWindowManager.HideAutoWindow(anchor);
 
+        	internal bool? SwitchAutoHideWindowVisibility(LayoutAnchorControl anchor)
+		{
+			if (_autoHideWindowManager.ShowAutoHideWindow(anchor))
+			{
+				return true;
+			}
+			else if (_autoHideWindowManager.HideAutoWindow(anchor))
+			{
+				return false;
+			}
+
+			return null;
+		}
+
 		internal FrameworkElement GetAutoHideAreaElement() => _autohideArea;
 
 		/// <summary>
