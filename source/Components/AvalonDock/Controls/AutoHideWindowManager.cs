@@ -45,30 +45,38 @@ namespace AvalonDock.Controls
 
 		/// <summary>Method is invoked to pop put an Anchorable that was in AutoHide mode.</summary>
 		/// <param name="anchor"><see cref="LayoutAnchorControl"/> to pop out of the side panel.</param>
-		public void ShowAutoHideWindow(LayoutAnchorControl anchor)
-		{
-			if (_currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>() != anchor)
-			{
-				StopCloseTimer();
-				_currentAutohiddenAnchor = new WeakReference(anchor);
-				_manager.AutoHideWindow.Show(anchor);
-				StartCloseTimer();
-			}
-		}
+		public bool ShowAutoHideWindow(LayoutAnchorControl anchor)
+        	{
+            		if (_currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>() != anchor)
+            		{
+                		StopCloseTimer();
+                		_currentAutohiddenAnchor = new WeakReference(anchor);
+                		_manager.AutoHideWindow.Show(anchor);
+                		StartCloseTimer();
+
+                		return true;
+            		}
+
+            		return false;
+        	}
 
 		/// <summary>Method is invoked to reduce the Anchorable back to AutoHide mode
 		/// after waiting for a configured time in the <see cref="DockingManager.AutoHideDelay"/> property.</summary>
 		/// <param name="anchor"><see cref="LayoutAnchorControl"/> to pop out of the side panel.</param>
-		public void HideAutoWindow(LayoutAnchorControl anchor = null)
-		{
-			if (anchor == null ||
-				anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
-			{
-				StopCloseTimer();
-			}
-			else
-				System.Diagnostics.Debug.Assert(false);
-		}
+		public bool HideAutoWindow(LayoutAnchorControl anchor = null)
+        	{
+            		if (anchor == null ||
+                	    anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
+            		{
+                		StopCloseTimer();
+                		return true;
+            		}
+            		else
+            		{
+                		System.Diagnostics.Debug.Assert(false);
+                		return false;
+            		}
+        	}
 
 		#endregion public methods
 
