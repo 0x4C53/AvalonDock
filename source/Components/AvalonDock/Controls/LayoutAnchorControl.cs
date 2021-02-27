@@ -129,7 +129,9 @@ namespace AvalonDock.Controls
 
 			if (!e.Handled)
 			{
-				if (_model.Root.Manager.SwitchAutoHideWindowVisibility(this) == true) _model.IsActive = true;
+				var visibility = _model.Root.Manager.SwitchAutoHideWindowVisibility(this);
+
+                		if (visibility.HasValue) _model.IsActive = visibility.Value;
 			}
 		}
 
