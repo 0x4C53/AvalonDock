@@ -719,6 +719,20 @@ namespace Microsoft.Windows.Shell
 
 		private void _SetRoundingRegion(WINDOWPOS? wp)
 		{
+                        var sysWC = System.Windows.Shell.WindowChrome.GetWindowChrome(this._window);
+                        if (sysWC != null)
+                        {
+                            var gft = sysWC.GlassFrameThickness;
+            
+                            //若该窗口有阴影，执行后续代码后，阴影会消失
+                            if (IsNonZero(gft.Top) ||
+                                IsNonZero(gft.Bottom) ||
+                                IsNonZero(gft.Left) ||
+                                IsNonZero(gft.Right)) return;
+            
+                            bool IsNonZero(double n) => 0 < n || n < 0;
+                        }
+
 			const int MONITOR_DEFAULTTONEAREST = 0x00000002;
 
 			// We're early - WPF hasn't necessarily updated the state of the window.
