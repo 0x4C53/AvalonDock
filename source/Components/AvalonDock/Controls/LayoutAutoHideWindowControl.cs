@@ -120,6 +120,7 @@ namespace AvalonDock.Controls
 			InvalidateMeasure();
 			UpdateWindowPos();
 			Win32Helper.BringWindowToTop(_internalHwndSource.Handle);
+			anchor.SetIsAutoHiding(false);
 		}
 
 		internal void Hide()
@@ -127,6 +128,7 @@ namespace AvalonDock.Controls
 			if (_model == null) return;
 			_model.PropertyChanged -= _model_PropertyChanged;
 			RemoveInternalGrid();
+			_anchor?.SetIsAutoHiding(true);
 			_anchor = null;
 			_model = null;
 			_manager = null;
