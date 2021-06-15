@@ -274,6 +274,8 @@ namespace AvalonDock.Controls
 			_internalGrid.Children.Add(_resizer);
 			_internalGrid.Children.Add(_internalHost);
 			_internalHostPresenter.Content = _internalGrid;
+			
+			_internalHostPresenter.SetValue(AutoHideWindowPropertyKey, this);
 		}
 
 		private void RemoveInternalGrid()
@@ -282,6 +284,8 @@ namespace AvalonDock.Controls
 			_resizer.DragDelta -= OnResizerDragDelta;
 			_resizer.DragCompleted -= OnResizerDragCompleted;
 			_internalHostPresenter.Content = null;
+			
+			_internalHostPresenter.SetValue(AutoHideWindowPropertyKey, null);
 		}
 
 		private void ShowResizerOverlayWindow(LayoutGridResizerControl splitter)
@@ -414,6 +418,15 @@ namespace AvalonDock.Controls
 			ShowResizerOverlayWindow(sender as LayoutGridResizerControl);
 			IsResizing = true;
 		}
+
+        	static readonly DependencyPropertyKey AutoHideWindowPropertyKey = DependencyProperty.RegisterAttachedReadOnly("AutoHideWindow", typeof(LayoutAutoHideWindowControl), typeof(LayoutAutoHideWindowControl), new PropertyMetadata());
+        	public static readonly DependencyProperty AutoHideWindowProperty = AutoHideWindowPropertyKey.DependencyProperty;
+        	/// <summary>
+        	/// 获取承载UI元素的自动隐藏窗口
+        	/// </summary>
+        	/// <param name="uIElement"></param>
+        	/// <returns></returns>
+        	public static LayoutAutoHideWindowControl GetAutoHideWindow(UIElement uIElement) => uIElement.GetValue(AutoHideWindowProperty) is LayoutAutoHideWindowControl v ? v : null;
 
 		#endregion Private Methods
 	}
