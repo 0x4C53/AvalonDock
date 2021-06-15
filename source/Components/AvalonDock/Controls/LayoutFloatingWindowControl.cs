@@ -692,6 +692,8 @@ namespace AvalonDock.Controls
 			/// <inheritdoc />
 			protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 			{
+				this.Content?.SetValue(FloatingWindowPropertyKey, this._owner);
+				
 				_wpfContentHost = new HwndSource(new HwndSourceParameters
 				{
 					ParentWindow = hwndParent.Handle,
@@ -712,6 +714,8 @@ namespace AvalonDock.Controls
 			/// <inheritdoc />
 			protected override void DestroyWindowCore(HandleRef hwnd)
 			{
+				this.Content?.ClearValue(FloatingWindowPropertyKey);
+				
 				_manager.InternalRemoveLogicalChild(_rootPresenter);
 				if (_wpfContentHost == null) return;
 				_wpfContentHost.Dispose();
@@ -741,6 +745,15 @@ namespace AvalonDock.Controls
 
 			#endregion Methods
 		}
+
+        	static readonly DependencyPropertyKey FloatingWindowPropertyKey = DependencyProperty.RegisterAttachedReadOnly("FloatingWindow", typeof(LayoutFloatingWindowControl), typeof(LayoutFloatingWindowControl), new PropertyMetadata());
+        	public static readonly DependencyProperty FloatingWindowProperty = FloatingWindowPropertyKey.DependencyProperty;
+        	/// <summary>
+        	/// 获取承载UI元素的浮窗
+        	/// </summary>
+        	/// <param name="uIElement"></param>
+        	/// <returns></returns>
+        	public static LayoutFloatingWindowControl GetFloatingWindow(UIElement uIElement) => uIElement.GetValue(FloatingWindowProperty) is LayoutFloatingWindowControl v ? v : null;
 
 		#endregion Internal Classes
 	}
